@@ -1,40 +1,15 @@
 package whatsapp_cloud_api_go
 
-// type WhatsApp interface{}
-
-type whatsApp struct {
-	AccessToken    string
-	ApiVersion     ApiVersion
-	BaseUrl        string
-	FromPhone      string
-	HostDomainName string
-	HttpProtocol   HttpProtocol
-	EndPoints      endPoints
-}
-
-type HttpProtocol string
-type ApiVersion string
-
-type endPoints struct {
-	Register,
-	Deregister,
-	Profile,
-	Messages,
-	Media,
-	Request_code,
-	Verify_code string
-}
-
+// create a new whatsapp instance
 func New(phone, token string, version ApiVersion, protocol HttpProtocol) *whatsApp {
-	domain := "graph.facebook.com"
-	url := string(protocol) + "://" + domain + "/" + string(version)
+	url := string(protocol) + "://" + FBDOMAIN + "/" + string(version)
 	return &whatsApp{
 		AccessToken:    token,
 		ApiVersion:     version,
 		BaseUrl:        url,
 		FromPhone:      phone,
 		HttpProtocol:   protocol,
-		HostDomainName: domain,
+		HostDomainName: FBDOMAIN,
 		EndPoints: endPoints{
 			Register:     url + "/" + phone + "/register",
 			Deregister:   url + "/" + phone + "/deregister",

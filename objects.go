@@ -1,267 +1,198 @@
 package whatsapp_cloud_api_go
 
-type ParameterType string
-type ComponentType string
-type ComponentSubType string
-type ButtonParameterType string
-type HeaderType string
-type ButtonType string
-type InteractiveType string
-type ContactAddressType string
-type ContactEmailType string
-type ContactPhoneType string
-type ContactUrlType string
-type MessagingProductType string
-type RecipientType string
-type MessageType string
+type whatsApp struct {
+	AccessToken    string
+	ApiVersion     ApiVersion
+	BaseUrl        string
+	FromPhone      string
+	HostDomainName string
+	HttpProtocol   HttpProtocol
+	EndPoints      endPoints
+}
 
+type endPoints struct {
+	Register,
+	Deregister,
+	Profile,
+	Messages,
+	Media,
+	Request_code,
+	Verify_code string
+}
+
+// https://developers.facebook.com/docs/whatsapp/cloud-api/reference
 type MessageObject struct {
-	Audio            MediaObject
-	Contacts         ContactObject
-	Document         MediaObject
-	Image            MediaObject
-	Interactive      InteractiveObject
-	Location         LocationObject
-	MessagingProduct MessagingProductType
-	PreviewUrl       bool
-	RecipientType    RecipientType
-	Status           string
-	Sticker          MediaObject
-	Template         TemplateObject
-	Text             TextObject
-	To               string
-	Type             MessageType
+	Audio            *MediaObject         `json:"audio,omitempty"`
+	Contacts         *ContactObject       `json:"contacts,omitempty"`
+	Document         *MediaObject         `json:"document,omitempty"`
+	Image            *MediaObject         `json:"image,omitempty"`
+	Interactive      *InteractiveObject   `json:"interactive,omitempty"`
+	Location         *LocationObject      `json:"location,omitempty"`
+	MessagingProduct MessagingProductType `json:"messagingProduct,omitempty"`
+	PreviewUrl       bool                 `json:"preview_url,omitempty"`
+	RecipientType    RecipientType        `json:"recipient_type,omitempty"`
+	Status           string               `json:"status,omitempty"`
+	Sticker          *MediaObject         `json:"sticker,omitempty"`
+	Template         *TemplateObject      `json:"template,omitempty"`
+	Text             *TextObject          `json:"text,omitempty"`
+	To               string               `json:"to,omitempty"`
+	Type             MessageType          `json:"type,omitempty"`
 }
 
 type ContactUrlObject struct {
-	Url  string
-	Type ContactUrlType
+	Url  string         `json:"url,omitempty"`
+	Type ContactUrlType `json:"type,omitempty"`
 }
 
 type ContactOrgObject struct {
-	Company,
-	Department,
-	Title string
+	Company    string `json:"company,omitempty"`
+	Department string `json:"department,omitempty"`
+	Title      string `json:"title,omitempty"`
 }
 
 type ContactNameObject struct {
-	FormattedName,
-	FirstName,
-	LastName,
-	MiddleName,
-	Suffix,
-	Prefix string
+	FormattedName string `json:"formattedName,omitempty"`
+	FirstName     string `json:"firstName,omitempty"`
+	LastName      string `json:"lastName,omitempty"`
+	MiddleName    string `json:"middleName,omitempty"`
+	Suffix        string `json:"suffix,omitempty"`
+	Prefix        string `json:"prefix,omitempty"`
 }
 
 type ContactAddressObject struct {
-	Street,
-	City,
-	State,
-	Zip,
-	Country,
-	CountryCode string
-	Type ContactAddressType
+	Street      string             `json:"street,omitempty"`
+	City        string             `json:"city,omitempty"`
+	State       string             `json:"state,omitempty"`
+	Zip         string             `json:"zip,omitempty"`
+	Country     string             `json:"country,omitempty"`
+	CountryCode string             `json:"countryCode,omitempty"`
+	Type        ContactAddressType `json:"type,omitempty"`
 }
 
 type ContactEmailObject struct {
-	Email string
-	Type  ContactEmailType
+	Email string           `json:"email,omitempty"`
+	Type  ContactEmailType `json:"type,omitempty"`
 }
 
 type ContactPhoneObject struct {
-	WA_ID string
-	Phone string
-	Type  ContactPhoneType
+	WA_ID string           `json:"wA_ID,omitempty"`
+	Phone string           `json:"phone,omitempty"`
+	Type  ContactPhoneType `json:"type,omitempty"`
 }
 
 type ContactObject struct {
-	Address  ContactAddressObject
-	Birthday string
-	Emails   []ContactEmailObject
-	Name     ContactNameObject
-	Org      ContactOrgObject
-	Phones   []ContactPhoneObject
-	Urls     []ContactUrlObject
+	Address  *ContactAddressObject `json:"address,omitempty"`
+	Birthday string                `json:"birthday,omitempty"`
+	Emails   []*ContactEmailObject `json:"emails,omitempty"`
+	Name     *ContactNameObject    `json:"name,omitempty"`
+	Org      *ContactOrgObject     `json:"org,omitempty"`
+	Phones   []*ContactPhoneObject `json:"phones,omitempty"`
+	Urls     []*ContactUrlObject   `json:"urls,omitempty"`
 }
 
 type InteractiveObjectBodyObject struct {
-	Text string
+	Text string `json:"text,omitempty"`
 }
 
 type InteractiveObjectFooterObject struct {
-	Text string
+	Text string `json:"text,omitempty"`
 }
 
 type InteractiveObject struct {
-	Action string
-	Type   InteractiveType
-	Header HeaderObject
-	Body   InteractiveObjectBodyObject
-	Footer InteractiveObjectFooterObject
+	Action string                         `json:"action,omitempty"`
+	Type   InteractiveType                `json:"type,omitempty"`
+	Header *HeaderObject                  `json:"header,omitempty"`
+	Body   *InteractiveObjectBodyObject   `json:"body,omitempty"`
+	Footer *InteractiveObjectFooterObject `json:"footer,omitempty"`
 }
 
 type ButtonObject struct {
-	ID    string
-	Title string
-	Type  ButtonType
+	ID    string     `json:"id,omitempty"`
+	Title string     `json:"title,omitempty"`
+	Type  ButtonType `json:"type,omitempty"`
 }
 
 type ActionObject struct {
-	Button   string
-	Buttons  []ButtonObject
-	Sections []SectionObject
+	Button   string           `json:"button,omitempty"`
+	Buttons  []*ButtonObject  `json:"buttons,omitempty"`
+	Sections []*SectionObject `json:"sections,omitempty"`
 }
 
 type HeaderObject struct {
-	Type     HeaderType
-	Text     string
-	Image    MediaObject
-	Document MediaObject
-	Video    MediaObject
+	Type     HeaderType   `json:"type,omitempty"`
+	Text     string       `json:"text,omitempty"`
+	Image    *MediaObject `json:"image,omitempty"`
+	Document *MediaObject `json:"document,omitempty"`
+	Video    *MediaObject `json:"video,omitempty"`
 }
 
 type SectionRowObject struct {
-	ID,
-	Title,
-	Description string
+	ID          string `json:"id,omitempty"`
+	Title       string `json:"title,omitempty"`
+	Description string `json:"description,omitempty"`
 }
 
 type SectionObject struct {
-	Title string
-	Rows  []SectionRowObject
+	Title string              `json:"title,omitempty"`
+	Rows  []*SectionRowObject `json:"rows,omitempty"`
 }
 
 type LocationObject struct {
-	Name      string
-	Address   string
-	Longitude float32
-	Latitude  float32
+	Name      string  `json:"name,omitempty"`
+	Address   string  `json:"address,omitempty"`
+	Longitude float32 `json:"longitude,omitempty"`
+	Latitude  float32 `json:"latitude,omitempty"`
 }
 
 type MediaObject struct {
-	ID,
-	Link,
-	Caption,
-	FileName,
-	Provider string
+	ID       string `json:"id,omitempty"`
+	Link     string `json:"link,omitempty"`
+	Caption  string `json:"caption,omitempty"`
+	FileName string `json:"fileName,omitempty"`
+	Provider string `json:"provider,omitempty"`
 }
 
 type TextObject struct {
-	Body       string
-	PreviewUrl bool
+	Body       string `json:"body,omitempty"`
+	PreviewUrl bool   `json:"previewUrl,omitempty"`
 }
 
 type ButtonParameterObject struct {
-	Type    ButtonParameterType
-	Payload interface{}
-	Text    string
+	Type    ButtonParameterType `json:"type,omitempty"`
+	Payload interface{}         `json:"payload,omitempty"`
+	Text    string              `json:"text,omitempty"`
 }
 
 type ComponentObject struct {
-	Type       ComponentType
-	SubType    ComponentSubType
-	Parameters []ParameterObject
-	Index      string
+	Type       ComponentType      `json:"type,omitempty"`
+	SubType    ComponentSubType   `json:"subType,omitempty"`
+	Parameters []*ParameterObject `json:"parameters,omitempty"`
+	Index      string             `json:"index,omitempty"`
 }
 
 type CurrencyObject struct {
-	FallbackValue string
-	Code          string
-	Amount1000    string
+	FallbackValue string `json:"fallbackValue,omitempty"`
+	Code          string `json:"code,omitempty"`
+	Amount1000    string `json:"amount1000,omitempty"`
 }
 
 type DateTimeObject struct {
-	FallbackValue string
+	FallbackValue string `json:"fallbackValue,omitempty"`
 }
 
 type ParameterObject struct {
-	Text     string
-	Type     ParameterType
-	Currency CurrencyObject
-	DateTime DateTimeObject
-	Image    MediaObject
-	Document MediaObject
-	Video    MediaObject
+	Text     string          `json:"text,omitempty"`
+	Type     ParameterType   `json:"type,omitempty"`
+	Currency *CurrencyObject `json:"currency,omitempty"`
+	DateTime *DateTimeObject `json:"dateTime,omitempty"`
+	Image    *MediaObject    `json:"image,omitempty"`
+	Document *MediaObject    `json:"document,omitempty"`
+	Video    *MediaObject    `json:"video,omitempty"`
 }
 
 type TemplateObject struct {
-	Name       string
-	Language   string
-	Components []ComponentObject
-	Namespace  string
+	Name       string             `json:"name,omitempty"`
+	Language   string             `json:"language,omitempty"`
+	Components []*ComponentObject `json:"components,omitempty"`
+	Namespace  string             `json:"namespace,omitempty"`
 }
-
-const (
-	ParameterTypeText     ParameterType = "text"
-	ParameterTypeCurrency               = "currency"
-	ParameterTypeDateTime               = "date_time"
-	ParameterTypeImage                  = "image"
-	ParameterTypeDocument               = "document"
-	ParameterTypeVideo                  = "video"
-)
-
-const (
-	ComponentTypeHeader ComponentType = "header"
-	ComponentTypeBody                 = "body"
-	ComponentTypeButton               = "button"
-)
-
-const (
-	ComponentSubTypeQuickReply ComponentSubType = "quick_reply"
-	ComponentSubTypeUrl                         = "url"
-)
-
-const (
-	ButtonParameterTypePayload ButtonParameterType = "payload"
-	ButtonParameterTypeText                        = "text"
-)
-
-const (
-	HeaderTypeText     HeaderType = "text"
-	HeaderTypeVideo               = "video"
-	HeaderTypeImage               = "image"
-	HeaderTypeDocument            = "document"
-)
-
-const ButtonTypeReply ButtonType = "reply"
-
-const (
-	InteractiveTypeList   InteractiveType = "list"
-	InteractiveTypeButton                 = "button"
-)
-
-const (
-	ContactAddressTypeHome ContactAddressType = "HOME"
-	ContactAddressTypeWork                    = "WORK"
-)
-
-const (
-	ContactEmailTypeHome ContactEmailType = "HOME"
-	ContactEmailTypeWork                  = "WORK"
-)
-
-const (
-	ContactPhoneTypeHome ContactPhoneType = "HOME"
-	ContactPhoneTypeWork                  = "WORK"
-)
-
-const (
-	ContactUrlTypeHome ContactUrlType = "HOME"
-	ContactUrlTypeWork                = "WORK"
-)
-
-const MessagingProductTypeWhatsApp MessagingProductType = "whatsapp"
-
-const RecipientTypeIndividual RecipientType = "individual"
-
-const (
-	MessageTypeAudio       MessageType = "audio"
-	MessageTypeContacts                = "contacts"
-	MessageTypeDocument                = "document"
-	MessageTypeImage                   = "image"
-	MessageTypeInteractive             = "interactive"
-	MessageTypeLocation                = "location"
-	MessageTypeSticker                 = "sticker"
-	MessageTypeTemplate                = "template"
-	MessageTypeText                    = "text"
-)

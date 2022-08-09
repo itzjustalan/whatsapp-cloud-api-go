@@ -4,12 +4,41 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+
 	// "io/ioutil"
 	// "log"
 	"net/http"
 )
 
 func (wa *whatsApp) SendTextMessage(phone, text string, preview bool) error {
+	o := MessageObject{
+		MessagingProduct: MessagingProductTypeWhatsApp,
+		RecipientType:    RecipientTypeIndividual,
+		Type:             MessageTypeText,
+		To:               phone,
+		Text: &TextObject{
+			PreviewUrl: preview,
+			Body:       text,
+		},
+	}
+	j, _ := json.Marshal(o)
+	p := bytes.NewBuffer(j)
+	// log.Println(o, "j", "p", p)
+
+	res, err := http.Post(wa.EndPoints.Messages, "application/json", p)
+	if err != nil || res.StatusCode != 200 {
+		return errors.New("request failed")
+	}
+	// defer res.Body.Close()
+	// b, err := ioutil.ReadAll(res.Body)
+	// if err != nil {
+	// 	return errors.New("failed reading body")
+	// }
+	// log.Println(string(b), "bbbbbbbbb")
+	return nil
+}
+
+func (wa *whatsApp) SendTextMessage2(phone, text string, preview bool) error {
 	d := make(map[string]interface{})
 	t := make(map[string]interface{})
 
